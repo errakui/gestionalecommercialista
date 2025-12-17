@@ -101,12 +101,14 @@ export const apiCallWithAuth = async (endpoint, options = {}) => {
     const cleanEndpoint = endpoint.startsWith('/') ? endpoint : `/${endpoint}`;
     const url = `${baseUrl}${cleanEndpoint}`;
     console.log('🔵 API Call:', url, options.method || 'GET');
-    console.log('🔵 Headers:', headers);
+    console.log('🔵 Headers:', JSON.stringify(headers));
+    console.log('🔵 Full URL:', url);
     const response = await fetch(url, {
       ...options,
       headers
     });
     console.log('🔵 Response Status:', response.status, response.statusText);
+    console.log('🔵 Response URL:', response.url);
 
     if (response.status === 401 || response.status === 403) {
       removeToken();
