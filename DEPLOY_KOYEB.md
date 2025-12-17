@@ -1,0 +1,89 @@
+# 🚀 Deploy su Koyeb - Istruzioni Complete
+
+## ⚠️ IMPORTANTE: SQLite NON funziona su Koyeb!
+
+SQLite usa file locali che vengono **persi ad ogni riavvio** su Koyeb. Il progetto è stato configurato per supportare **PostgreSQL** automaticamente.
+
+## ✅ Cosa è stato preparato
+
+- ✅ Supporto automatico PostgreSQL/SQLite
+- ✅ Dockerfile per backend e frontend
+- ✅ Configurazione Koyeb
+- ✅ Variabili d'ambiente
+
+## 📋 Procedura Deploy
+
+### 1. Crea Database PostgreSQL su Koyeb
+
+1. Vai su [Koyeb Dashboard](https://app.koyeb.com)
+2. Clicca su **"Databases"** → **"Create Database"**
+3. Scegli **PostgreSQL**
+4. Copia la **Connection String** (es: `postgresql://user:pass@host:5432/db`)
+
+### 2. Deploy Backend
+
+**Opzione A: Via Dashboard (CONSIGLIATO)**
+
+1. Vai su **"Apps"** → **"Create App"**
+2. Connetti il tuo repository GitHub (o carica il codice)
+3. Imposta:
+   - **Name**: `gestionale-backend`
+   - **Root Directory**: `backend`
+   - **Build Command**: `npm install`
+   - **Run Command**: `npm start`
+4. Aggiungi **Environment Variables**:
+   ```
+   PORT=3001
+   NODE_ENV=production
+   JWT_SECRET=your-super-secret-key-change-this
+   DATABASE_URL=postgresql://user:pass@host:5432/db
+   ```
+5. Clicca **"Deploy"**
+
+**Opzione B: Via Dockerfile**
+
+1. Crea app con Dockerfile nella cartella `backend`
+2. Koyeb rileverà automaticamente il Dockerfile
+
+### 3. Deploy Frontend
+
+1. Crea nuova App: `gestionale-frontend`
+2. Root Directory: `frontend`
+3. Build Command: `npm install && npm run build`
+4. Run Command: `npx serve -s build -l 3000`
+5. Environment Variable:
+   ```
+   REACT_APP_API_URL=https://your-backend-app.koyeb.app/api
+   ```
+   (Sostituisci con l'URL reale del tuo backend)
+
+### 4. Configurazione CORS
+
+Il backend è già configurato con CORS. Se hai problemi, verifica che il frontend URL sia nella whitelist.
+
+## 🔧 Verifica Post-Deploy
+
+1. **Backend**: `https://your-backend.koyeb.app/api/health`
+2. **Frontend**: `https://your-frontend.koyeb.app`
+3. **Login**: Usa credenziali da `CREDENZIALI.md`
+
+## 📝 Note Importanti
+
+- Il database PostgreSQL viene creato automaticamente al primo avvio
+- L'utente admin viene creato automaticamente
+- Cambia `JWT_SECRET` in produzione!
+- Il frontend deve conoscere l'URL del backend tramite `REACT_APP_API_URL`
+
+## 🐛 Troubleshooting
+
+**Errore "Database connection failed"**
+- Verifica che `DATABASE_URL` sia corretto
+- Controlla che il database PostgreSQL sia attivo su Koyeb
+
+**Frontend non si connette al backend**
+- Verifica `REACT_APP_API_URL` nel frontend
+- Controlla CORS nel backend
+
+**404 su route frontend**
+- Verifica che nginx.conf sia configurato correttamente
+- Controlla che il build sia stato eseguito

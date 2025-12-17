@@ -1,0 +1,14 @@
+name: gestionale-studio-backend
+type: web
+run: npm start
+build: npm install
+env:
+  - name: PORT
+    value: "3001"
+  - name: NODE_ENV
+    value: "production"
+  - name: JWT_SECRET
+    value: "gestionale-studio-secret-key-2024-change-in-production"
+  - name: DATABASE_URL
+    value: "postgresql://user:password@host:5432/dbname"
+

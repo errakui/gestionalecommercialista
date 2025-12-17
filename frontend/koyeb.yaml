@@ -1,0 +1,10 @@
+name: gestionale-studio-frontend
+type: web
+run: npm start
+build: npm install && npm run build
+env:
+  - name: REACT_APP_API_URL
+    value: "https://your-backend-url.koyeb.app/api"
+  - name: PORT
+    value: "3000"
+
