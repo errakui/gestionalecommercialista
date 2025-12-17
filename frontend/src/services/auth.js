@@ -86,7 +86,7 @@ export const getCurrentUser = async () => {
 // Aggiunge token a tutte le richieste API
 export const apiCallWithAuth = async (endpoint, options = {}) => {
   const token = getToken();
-  const baseUrl = process.env.REACT_APP_API_URL || '/api';
+  const baseUrl = process.env.REACT_APP_API_URL || 'https://obliged-mag-errakui-b6f59c0f.koyeb.app';
   
   const headers = {
     'Content-Type': 'application/json',
