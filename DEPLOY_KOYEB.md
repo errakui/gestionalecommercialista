@@ -22,15 +22,13 @@ SQLite usa file locali che vengono **persi ad ogni riavvio** su Koyeb. Il proget
 
 ### 2. Deploy Backend
 
-**Opzione A: Via Dashboard (CONSIGLIATO)**
+**Via Dashboard con Dockerfile (CONSIGLIATO)**
 
 1. Vai su **"Apps"** → **"Create App"**
-2. Connetti il tuo repository GitHub (o carica il codice)
-3. Imposta:
-   - **Name**: `gestionale-backend`
+2. Connetti il tuo repository GitHub: `errakui/gestionalecommercialista`
+3. Nella schermata **"Build options"**:
+   - ✅ Seleziona **"Dockerfile"** (NON Buildpack)
    - **Root Directory**: `backend`
-   - **Build Command**: `npm install`
-   - **Run Command**: `npm start`
 4. Aggiungi **Environment Variables**:
    ```
    PORT=3001
@@ -40,18 +38,15 @@ SQLite usa file locali che vengono **persi ad ogni riavvio** su Koyeb. Il proget
    ```
 5. Clicca **"Deploy"**
 
-**Opzione B: Via Dockerfile**
-
-1. Crea app con Dockerfile nella cartella `backend`
-2. Koyeb rileverà automaticamente il Dockerfile
+**Nota**: Il Dockerfile è già presente in `backend/Dockerfile` e include tutti i build tools necessari per `sqlite3` e `pg`.
 
 ### 3. Deploy Frontend
 
 1. Crea nuova App: `gestionale-frontend`
-2. Root Directory: `frontend`
-3. Build Command: `npm install && npm run build`
-4. Run Command: `npx serve -s build -l 3000`
-5. Environment Variable:
+2. Nella schermata **"Build options"**:
+   - ✅ Seleziona **"Dockerfile"** (NON Buildpack)
+   - **Root Directory**: `frontend`
+3. Environment Variable:
    ```
    REACT_APP_API_URL=https://your-backend-app.koyeb.app/api
    ```

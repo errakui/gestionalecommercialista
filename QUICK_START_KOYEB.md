@@ -14,11 +14,9 @@
 
 1. **Apps** → **Create App**
 2. Connetti repository: `errakui/gestionalecommercialista`
-3. Imposta:
-   - **Name**: `gestionale-backend`
+3. Nella schermata **"Build options"**:
+   - ✅ Seleziona **"Dockerfile"** (NON Buildpack)
    - **Root Directory**: `backend`
-   - **Build Command**: `npm install`
-   - **Run Command**: `npm start`
 4. **Environment Variables** (vedi VARIABILI_AMBIENTE.md):
    ```
    PORT=3001
@@ -33,11 +31,9 @@
 
 1. **Apps** → **Create App**
 2. Connetti repository: `errakui/gestionalecommercialista`
-3. Imposta:
-   - **Name**: `gestionale-frontend`
+3. Nella schermata **"Build options"**:
+   - ✅ Seleziona **"Dockerfile"** (NON Buildpack)
    - **Root Directory**: `frontend`
-   - **Build Command**: `npm install && npm run build`
-   - **Run Command**: `npx serve -s build -l 3000`
 4. **Environment Variable**:
    ```
    REACT_APP_API_URL=https://gestionale-backend-xxx.koyeb.app/api
