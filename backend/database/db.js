@@ -12,20 +12,28 @@ if (process.env.DATABASE_URL) {
   dbType = 'postgres';
   
   // Koyeb PostgreSQL richiede SSL ma il certificato non corrisponde all'hostname
-  // Forza SSL con rejectUnauthorized: false per tutti i database Koyeb
+  // Disabilita verifica certificato SSL per database Koyeb
   const connectionString = process.env.DATABASE_URL;
-  const needsSSL = connectionString && (
-    connectionString.includes('sslmode=require') || 
+  const isKoyebDB = connectionString && (
     connectionString.includes('.pg.koyeb.app') || 
     connectionString.includes('.koyeb.app') ||
     connectionString.includes('eu-central-1.pg.koyeb') ||
     connectionString.includes('ep-bold-sound')
   );
   
+  // Per database Koyeb, forza SSL senza verifica certificato
   const pool = new Pool({
     connectionString: connectionString,
-    ssl: needsSSL ? { rejectUnauthorized: false } : false
+    ssl: isKoyebDB ? { 
+      rejectUnauthorized: false,
+      require: true 
+    } : (connectionString.includes('sslmode=require') ? { rejectUnauthorized: false } : false)
   });
+  
+  // Disabilita verifica TLS a livello Node.js per database Koyeb (se necessario)
+  if (isKoyebDB) {
+    process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0';
+  }
 
   // Wrapper per compatibilità con SQLite
   db = {
