@@ -5,7 +5,8 @@
 import { apiCallWithAuth } from './auth';
 
 // Usa proxy se disponibile, altrimenti URL completo
-const API_BASE_URL = process.env.REACT_APP_API_URL || '/api';
+// NOTA: Koyeb rimuove /api, quindi le route sono senza prefisso
+const API_BASE_URL = process.env.REACT_APP_API_URL || '';
 
 const apiCall = async (endpoint, options = {}) => {
   return apiCallWithAuth(endpoint, options);
