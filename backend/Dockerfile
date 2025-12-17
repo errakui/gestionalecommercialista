@@ -2,6 +2,9 @@ FROM node:18-alpine
 
 WORKDIR /app
 
+# Installa build tools per sqlite3
+RUN apk add --no-cache python3 make g++ sqlite
+
 # Copia package files
 COPY package*.json ./
 
