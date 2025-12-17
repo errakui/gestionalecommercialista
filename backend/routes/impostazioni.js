@@ -10,7 +10,33 @@ router.get('/', (req, res) => {
       return;
     }
     if (!row) {
-      res.status(404).json({ error: 'Impostazioni non trovate' });
+      // Se non esistono, crea impostazioni di default
+      const defaultImpostazioni = {
+        iva: 0.22,
+        ritenuta: 0.20,
+        cassa: 0.04,
+        studio: {
+          nome: '',
+          indirizzo: '',
+          citta: '',
+          piva: '',
+          email: '',
+          telefono: ''
+        }
+      };
+      // Inserisci nel database
+      db.run(
+        `INSERT INTO tb_impostazioni (id, iva, ritenuta, cassa) VALUES (1, ?, ?, ?)`,
+        [defaultImpostazioni.iva, defaultImpostazioni.ritenuta, defaultImpostazioni.cassa],
+        function(insertErr) {
+          if (insertErr) {
+            console.error('Errore creazione impostazioni:', insertErr);
+            // Restituisci comunque i default
+            return res.json(defaultImpostazioni);
+          }
+          res.json(defaultImpostazioni);
+        }
+      );
       return;
     }
     // Formatta come nel frontend
@@ -19,12 +45,12 @@ router.get('/', (req, res) => {
       ritenuta: row.ritenuta,
       cassa: row.cassa,
       studio: {
-        nome: row.studio_nome,
-        indirizzo: row.studio_indirizzo,
-        citta: row.studio_citta,
-        piva: row.studio_piva,
-        email: row.studio_email,
-        telefono: row.studio_telefono
+        nome: row.studio_nome || '',
+        indirizzo: row.studio_indirizzo || '',
+        citta: row.studio_citta || '',
+        piva: row.studio_piva || '',
+        email: row.studio_email || '',
+        telefono: row.studio_telefono || ''
       }
     });
   });
