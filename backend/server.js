@@ -5,11 +5,6 @@ const path = require('path');
 const app = express();
 const PORT = process.env.PORT || 3001;
 
-// Serve file statici se in produzione (per frontend build)
-if (process.env.NODE_ENV === 'production') {
-  app.use(express.static(path.join(__dirname, '../frontend/build')));
-}
-
 // Middleware
 app.use(cors());
 app.use(express.json());
@@ -34,6 +29,12 @@ app.use('/api/dashboard', authenticateToken, require('./routes/dashboard'));
 app.get('/api/health', (req, res) => {
   res.json({ status: 'ok', message: 'Server attivo' });
 });
+
+// Serve file statici se in produzione (DOPO le route API)
+// NOTA: Con frontend separato su Koyeb, questo non serve
+// if (process.env.NODE_ENV === 'production') {
+//   app.use(express.static(path.join(__dirname, '../frontend/build')));
+// }
 
 // Serve React app in produzione (solo se frontend non è su servizio separato)
 // NOTA: Con frontend separato su Koyeb, questo non serve
