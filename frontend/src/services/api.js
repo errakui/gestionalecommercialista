@@ -4,9 +4,8 @@
 
 import { apiCallWithAuth } from './auth';
 
-// Usa proxy se disponibile, altrimenti URL completo
-// NOTA: Koyeb rimuove /api, quindi le route sono senza prefisso
-const API_BASE_URL = process.env.REACT_APP_API_URL || 'https://obliged-mag-errakui-b6f59c0f.koyeb.app';
+// URL backend hardcodato (Koyeb rimuove /api, quindi le route sono senza prefisso)
+const API_BASE_URL = 'https://obliged-mag-errakui-b6f59c0f.koyeb.app';
 
 const apiCall = async (endpoint, options = {}) => {
   return apiCallWithAuth(endpoint, options);

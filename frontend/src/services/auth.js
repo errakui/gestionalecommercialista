@@ -2,9 +2,8 @@
 // AUTH SERVICE - Gestione autenticazione
 // ============================================
 
-// Usa proxy se disponibile, altrimenti URL completo
-// NOTA: Koyeb rimuove /api, quindi le route sono senza prefisso
-const API_BASE_URL = process.env.REACT_APP_API_URL || 'https://obliged-mag-errakui-b6f59c0f.koyeb.app';
+// URL backend hardcodato (Koyeb rimuove /api, quindi le route sono senza prefisso)
+const API_BASE_URL = 'https://obliged-mag-errakui-b6f59c0f.koyeb.app';
 
 // Salva token in localStorage
 export const setToken = (token) => {
@@ -29,8 +28,7 @@ export const isAuthenticated = () => {
 // Login
 export const login = async (username, password) => {
   try {
-    const baseUrl = API_BASE_URL || 'https://obliged-mag-errakui-b6f59c0f.koyeb.app';
-    const response = await fetch(`${baseUrl}/auth/login`, {
+    const response = await fetch(`${API_BASE_URL}/auth/login`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
@@ -64,8 +62,7 @@ export const getCurrentUser = async () => {
   }
 
   try {
-    const baseUrl = API_BASE_URL || 'https://obliged-mag-errakui-b6f59c0f.koyeb.app';
-    const response = await fetch(`${baseUrl}/auth/me`, {
+    const response = await fetch(`${API_BASE_URL}/auth/me`, {
       headers: {
         'Authorization': `Bearer ${token}`
       }
@@ -88,7 +85,7 @@ export const getCurrentUser = async () => {
 // Aggiunge token a tutte le richieste API
 export const apiCallWithAuth = async (endpoint, options = {}) => {
   const token = getToken();
-  const baseUrl = process.env.REACT_APP_API_URL || 'https://obliged-mag-errakui-b6f59c0f.koyeb.app';
+  const baseUrl = 'https://obliged-mag-errakui-b6f59c0f.koyeb.app';
   
   const headers = {
     'Content-Type': 'application/json',
