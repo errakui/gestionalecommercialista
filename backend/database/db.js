@@ -13,7 +13,9 @@ if (process.env.DATABASE_URL) {
   
   const pool = new Pool({
     connectionString: process.env.DATABASE_URL,
-    ssl: process.env.DATABASE_URL.includes('sslmode=require') ? { rejectUnauthorized: false } : false
+    ssl: process.env.DATABASE_URL && (process.env.DATABASE_URL.includes('sslmode=require') || process.env.DATABASE_URL.includes('.pg.koyeb.app')) 
+      ? { rejectUnauthorized: false } 
+      : false
   });
 
   // Wrapper per compatibilità con SQLite
