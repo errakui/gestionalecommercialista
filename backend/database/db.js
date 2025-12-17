@@ -13,7 +13,8 @@ if (process.env.DATABASE_URL) {
   
   const pool = new Pool({
     connectionString: process.env.DATABASE_URL,
-    ssl: process.env.DATABASE_URL && (process.env.DATABASE_URL.includes('sslmode=require') || process.env.DATABASE_URL.includes('.pg.koyeb.app')) 
+    // Koyeb PostgreSQL richiede SSL ma il certificato non corrisponde all'hostname
+    ssl: process.env.DATABASE_URL && (process.env.DATABASE_URL.includes('sslmode=require') || process.env.DATABASE_URL.includes('.pg.koyeb.app') || process.env.DATABASE_URL.includes('.koyeb.app')) 
       ? { rejectUnauthorized: false } 
       : false
   });
