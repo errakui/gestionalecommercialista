@@ -98,7 +98,11 @@ export const apiCallWithAuth = async (endpoint, options = {}) => {
   }
 
   try {
-    const response = await fetch(`${baseUrl}${endpoint}`, {
+    // Assicurati che endpoint inizi con /
+    const cleanEndpoint = endpoint.startsWith('/') ? endpoint : `/${endpoint}`;
+    const url = `${baseUrl}${cleanEndpoint}`;
+    console.log('API Call:', url, options.method || 'GET');
+    const response = await fetch(url, {
       ...options,
       headers
     });
