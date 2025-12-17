@@ -115,7 +115,9 @@ export const apiCallWithAuth = async (endpoint, options = {}) => {
     }
 
     if (!response.ok) {
-      throw new Error(`HTTP error! status: ${response.status}`);
+      const errorText = await response.text();
+      console.error('🔴 Error Response:', errorText);
+      throw new Error(`HTTP error! status: ${response.status} - ${errorText.substring(0, 100)}`);
     }
 
     return await response.json();
