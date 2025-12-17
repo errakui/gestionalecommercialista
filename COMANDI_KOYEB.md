@@ -3,7 +3,7 @@
 ## 🔐 Login
 
 ```bash
-koyeb auth login
+koyeb login
 ```
 
 Ti aprirà il browser per autenticarti.
@@ -104,7 +104,7 @@ koyeb services restart <service-id>
 
 ```bash
 # 1. Login
-koyeb auth login
+koyeb login
 
 # 2. Lista servizi
 koyeb services list
@@ -138,7 +138,7 @@ koyeb services list --app <app-name> | awk '{print $1}' | xargs -I {} koyeb serv
 
 ## 🆘 Se non funziona
 
-1. **Verifica login**: `koyeb auth whoami`
+1. **Verifica login**: `koyeb apps list` (se funziona sei loggato)
 2. **Vedi help**: `koyeb --help`
 3. **Documentazione**: https://www.koyeb.com/docs/build-and-deploy/cli
 

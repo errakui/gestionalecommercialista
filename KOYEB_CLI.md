@@ -22,7 +22,7 @@ koyeb --version
 ## 🔐 Login
 
 ```bash
-koyeb auth login
+koyeb login
 ```
 
 Ti aprirà il browser per autenticarti.
