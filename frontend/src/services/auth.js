@@ -4,7 +4,7 @@
 
 // Usa proxy se disponibile, altrimenti URL completo
 // NOTA: Koyeb rimuove /api, quindi le route sono senza prefisso
-const API_BASE_URL = process.env.REACT_APP_API_URL || '';
+const API_BASE_URL = process.env.REACT_APP_API_URL || 'https://obliged-mag-errakui-b6f59c0f.koyeb.app';
 
 // Salva token in localStorage
 export const setToken = (token) => {
