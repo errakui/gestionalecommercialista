@@ -35,12 +35,13 @@ app.get('/api/health', (req, res) => {
   res.json({ status: 'ok', message: 'Server attivo' });
 });
 
-// Serve React app in produzione
-if (process.env.NODE_ENV === 'production') {
-  app.get('*', (req, res) => {
-    res.sendFile(path.join(__dirname, '../frontend/build/index.html'));
-  });
-}
+// Serve React app in produzione (solo se frontend non è su servizio separato)
+// NOTA: Con frontend separato su Koyeb, questo non serve
+// if (process.env.NODE_ENV === 'production') {
+//   app.get('*', (req, res) => {
+//     res.sendFile(path.join(__dirname, '../frontend/build/index.html'));
+//   });
+// }
 
 // Avvia server
 app.listen(PORT, () => {
