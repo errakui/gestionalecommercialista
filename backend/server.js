@@ -13,20 +13,20 @@ app.use(express.urlencoded({ extended: true }));
 // Inizializza database (carica schema e dati)
 require('./database/init');
 
-// Routes pubbliche
-app.use('/api/auth', require('./routes/auth'));
+// Routes pubbliche (senza /api perché Koyeb lo rimuove)
+app.use('/auth', require('./routes/auth'));
 
 // Routes protette
 const { authenticateToken } = require('./middleware/auth');
-app.use('/api/clienti', authenticateToken, require('./routes/clienti'));
-app.use('/api/contratti', authenticateToken, require('./routes/contratti'));
-app.use('/api/incassi', authenticateToken, require('./routes/incassi'));
-app.use('/api/costi', authenticateToken, require('./routes/costi'));
-app.use('/api/impostazioni', authenticateToken, require('./routes/impostazioni'));
-app.use('/api/dashboard', authenticateToken, require('./routes/dashboard'));
+app.use('/clienti', authenticateToken, require('./routes/clienti'));
+app.use('/contratti', authenticateToken, require('./routes/contratti'));
+app.use('/incassi', authenticateToken, require('./routes/incassi'));
+app.use('/costi', authenticateToken, require('./routes/costi'));
+app.use('/impostazioni', authenticateToken, require('./routes/impostazioni'));
+app.use('/dashboard', authenticateToken, require('./routes/dashboard'));
 
 // Health check
-app.get('/api/health', (req, res) => {
+app.get('/health', (req, res) => {
   res.json({ status: 'ok', message: 'Server attivo' });
 });
 
