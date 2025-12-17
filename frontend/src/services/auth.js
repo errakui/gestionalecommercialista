@@ -29,7 +29,8 @@ export const isAuthenticated = () => {
 // Login
 export const login = async (username, password) => {
   try {
-    const response = await fetch(`${API_BASE_URL}/auth/login`, {
+    const baseUrl = API_BASE_URL || 'https://obliged-mag-errakui-b6f59c0f.koyeb.app';
+    const response = await fetch(`${baseUrl}/auth/login`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
@@ -63,7 +64,8 @@ export const getCurrentUser = async () => {
   }
 
   try {
-    const response = await fetch(`${API_BASE_URL}/auth/me`, {
+    const baseUrl = API_BASE_URL || 'https://obliged-mag-errakui-b6f59c0f.koyeb.app';
+    const response = await fetch(`${baseUrl}/auth/me`, {
       headers: {
         'Authorization': `Bearer ${token}`
       }
