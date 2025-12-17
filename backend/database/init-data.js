@@ -125,6 +125,18 @@ const insertCostiAltri = () => {
       (1, 1, 'Rinnovo PEC', 25, 1, '2024-02-10'),
       (2, 3, 'Visura CCIAA', 15, 1, '2024-01-20')`;
   
+  db.run(query, [], () => insertImpostazioni());
+};
+
+const insertImpostazioni = () => {
+  const currentDbType = getDbType();
+  const query = currentDbType === 'postgres'
+    ? `INSERT INTO tb_impostazioni (id, iva, ritenuta, cassa, studio_nome, studio_indirizzo, studio_citta, studio_piva, studio_email, studio_telefono) VALUES
+      (1, 0.22, 0.20, 0.04, 'Studio Professionale', 'Via Roma 1', 'Milano', 'IT12345678901', 'info@studio.it', '02 1234567')
+      ON CONFLICT (id) DO NOTHING`
+    : `INSERT OR IGNORE INTO tb_impostazioni (id, iva, ritenuta, cassa, studio_nome, studio_indirizzo, studio_citta, studio_piva, studio_email, studio_telefono) VALUES
+      (1, 0.22, 0.20, 0.04, 'Studio Professionale', 'Via Roma 1', 'Milano', 'IT12345678901', 'info@studio.it', '02 1234567')`;
+  
   db.run(query, [], () => {
     console.log('✅ Dati di esempio inseriti');
   });
