@@ -138,8 +138,63 @@ const insertImpostazioni = () => {
       (1, 0.22, 0.20, 0.04, 'Studio Professionale', 'Via Roma 1', 'Milano', 'IT12345678901', 'info@studio.it', '02 1234567')`;
   
   db.run(query, [], () => {
-    console.log('✅ Dati di esempio inseriti');
+    if (currentDbType === 'postgres') {
+      // Resetta le sequenze PostgreSQL dopo l'inserimento dei dati
+      resetSequences();
+    } else {
+      console.log('✅ Dati di esempio inseriti');
+    }
   });
+};
+
+const resetSequences = () => {
+  const currentDbType = getDbType();
+  if (currentDbType !== 'postgres') return;
+  
+  // Resetta tutte le sequenze PostgreSQL al valore massimo + 1
+  const sequences = [
+    'tb_utenti_id_seq',
+    'tb_clienti_id_seq',
+    'tb_contratti_id_seq',
+    'tb_incassi_id_seq',
+    'tb_costi_studio_id_seq',
+    'tb_costi_altri_id_seq',
+    'tb_impostazioni_id_seq',
+    'tb_centri_di_costo_id_seq',
+    'tb_servizi_id_seq'
+  ];
+  
+  let seqIndex = 0;
+  const resetNext = () => {
+    if (seqIndex >= sequences.length) {
+      console.log('✅ Dati di esempio inseriti');
+      return;
+    }
+    
+    const seqName = sequences[seqIndex];
+    const tableName = seqName.replace('_id_seq', '');
+    
+    // Trova il max ID e imposta la sequenza
+    db.get(`SELECT COALESCE(MAX(id), 0) as max_id FROM ${tableName}`, [], (err, row) => {
+      if (err) {
+        console.error(`Errore reset sequenza ${seqName}:`, err.message);
+        seqIndex++;
+        resetNext();
+        return;
+      }
+      
+      const nextVal = (row.max_id || 0) + 1;
+      db.run(`SELECT setval('${seqName}', ${nextVal}, false)`, [], (err) => {
+        if (err) {
+          console.error(`Errore setval ${seqName}:`, err.message);
+        }
+        seqIndex++;
+        resetNext();
+      });
+    });
+  };
+  
+  resetNext();
 };
 
 module.exports = { insertOtherData };
